@@ -303,12 +303,7 @@ setup_dict = dict(
         'pyflakes==1.6.0',
     ],
     cmdclass={'test': TestAllCommand},
-    zip_safe=False,  # don't use eggs
-    entry_points={
-        'console_scripts': [
-            'nssm_cli = nssm.main:entry_point'
-        ],
-    }
+    zip_safe=False  # don't use eggs
 )
 
 

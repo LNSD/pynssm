@@ -1,5 +1,6 @@
 """
-
+ Created on May 19, 2018
+ @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
 """
 import os
 import re
@@ -38,8 +39,7 @@ class Wrapper(object):
 
         # Run the command
         try:
-            out = sp.check_output(cmd,
-                                  stderr=sp.STDOUT,
+            out = sp.check_output(cmd, stderr=sp.STDOUT,
                                   universal_newlines=True)
             return 0, out.decode("utf-16")
 

@@ -1,7 +1,7 @@
 """
-
+ Created on May 19, 2018
+ @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
 """
-import re
 from nssm.abstract.collections import AbstractEnum
 
 from nssm.wrapper import Wrapper
@@ -24,6 +24,8 @@ class Service(object):
         """
         :param name: Service name
         :type name: str
+        :param path: Executable path
+        :type path: str
         """
         self.name = name
         self.path = path
@@ -88,12 +90,11 @@ class Service(object):
     def status(self):
         """
         Query the service's status
+        :return: Service status
+        :rtype: :class:`ServiceStatus`
         """
         rc, out = Wrapper.command("status", self.name)
-
-        # Parse response
-        status = re.search(r"SERVICE_([A-Z]+)", out).group(1)
-        return ServiceStatus.coerce(status)
+        return ServiceStatus(out.strip())
 
     def configure(self, config):
         """
@@ -117,6 +118,15 @@ class Service(object):
                 for k, v in value.items():
                     env += k + "=" + v
                 value = env
+
+            elif param == "action_on_exit":
+                for k, v in value.items():
+                    v = v.value
+                    Wrapper.command("set", self.name, PARAM_MAP[param], k, v)
+                continue
+
+            if isinstance(value, AbstractEnum):
+                value = value.value
 
             Wrapper.command("set", self.name, PARAM_MAP[param], value)
 

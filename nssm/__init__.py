@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Python wrapper for NSSM"""
+"""
+ Python wrapper for NSSM
+
+ Created on May 19, 2018
+ @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
+"""
 
 from nssm import metadata
 

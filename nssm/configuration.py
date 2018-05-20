@@ -1,11 +1,12 @@
 """
-
+ Created on May 19, 2018
+ @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
 """
-from voluptuous import Schema, Required, Optional, Or, Coerce, REMOVE_EXTRA, \
-                       humanize as hum
+from voluptuous import Schema, Required, Optional, Or, Coerce, \
+                       humanize as hum, REMOVE_EXTRA, ALLOW_EXTRA
 
 from nssm.abstract.collections import AbstractDict
-from nssm.parameters import StartupType, PriorityLevel, ServiceType
+from nssm.parameters import StartupType, PriorityLevel, ServiceType, ExitAction
 
 
 class ServiceConfiguration(AbstractDict):
@@ -15,7 +16,7 @@ class ServiceConfiguration(AbstractDict):
 
     def __init__(self, *args, **kwargs):
         """
-
+        Service configuration class constructor
         """
         super(ServiceConfiguration, self).__init__()
 
@@ -60,6 +61,13 @@ class ServiceConfiguration(AbstractDict):
             Optional("stop_console"): int,
             Optional("stop_window"): int,
             Optional("stop_threads"): int,
+
+            # Exit action
+            Optional("restart_throttling"): int,
+            Optional("restart_delay"): int,
+            Optional("action_on_exit"): Schema({
+                Required("Default"): Coerce(ExitAction.coerce)
+            }, extra=ALLOW_EXTRA),
 
             # I/O
             Optional("stdout"): str,

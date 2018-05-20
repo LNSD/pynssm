@@ -1,10 +1,10 @@
 """
-
+ Created on May 19, 2018
+ @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
 """
-
 from nssm.abstract.collections import AbstractEnum
 
-__all__ = ["StartupType", "PriorityLevel", "ServiceType"]
+__all__ = ["StartupType", "PriorityLevel", "ServiceType", "ExitAction"]
 
 
 class StartupType(AbstractEnum):
@@ -19,7 +19,7 @@ class StartupType(AbstractEnum):
         startup if delayed start is unavailable.
         """
         AUTOMATIC = "SERVICE_AUTO_START"
-        DELAYED = "SERVICE_DELAYED_START"
+        DELAYED = "SERVICE_DELAYED_AUTO_START"
         MANUAL = "SERVICE_DEMAND_START"
         DISABLED = "SERVICE_DISABLED"
 
@@ -48,6 +48,16 @@ class ServiceType(AbstractEnum):
     STANDALONE = "SERVICE_WIN32_OWN_PROCESS"
     # A service which can interact with the desktop.
     DESKTOP = "SERVICE_INTERACTIVE_PROCESS"
+
+
+class ExitAction(AbstractEnum):
+    """
+    Exit action
+    """
+    RESTART = "Restart"
+    IGNORE = "Ignore"
+    EXIT = "Exit"
+    SUICIDE = "Suicide"
 
 
 PARAM_MAP = {
@@ -80,9 +90,9 @@ PARAM_MAP = {
     "stop_threads": "AppStopMethodThreads",
 
     # Exit action
-    # EXIT_ACTION_THROTTLING: "AppThrottle",
-    # EXIT_ACTION_RECOVERY_ACTION: "AppExit Default",
-    # EXIT_ACTION_RECOVERY_DELAY: "AppRestartDelay",
+    "restart_throttling": "AppThrottle",
+    "restart_delay": "AppRestartDelay",
+    "action_on_exit": "AppExit",
 
     # I/O
     "stdout": "AppStdout",

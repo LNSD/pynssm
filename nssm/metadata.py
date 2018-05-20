@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Project metadata
+"""
+ Project metadata
+ Information describing the project.
 
-Information describing the project.
+ Created on May 19, 2018
+ @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
 """
 
 # The package name, which is also the "UNIX name" for the project.
