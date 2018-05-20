@@ -127,6 +127,8 @@ class Service(object):
 
             if isinstance(value, AbstractEnum):
                 value = value.value
+            elif isinstance(value, bool):
+                value = 1 if value else 0
 
             Wrapper.command("set", self.name, PARAM_MAP[param], value)
 
