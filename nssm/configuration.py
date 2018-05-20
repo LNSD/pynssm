@@ -42,10 +42,10 @@ class ServiceConfiguration(AbstractDict):
             Optional("startup"): Coerce(StartupType.coerce),
 
             # Log on
-            Optional("user_account"): Or(str, {
+            Optional("user_account"): Or(str, Schema({
                 Required("username"): str,
                 Required("password"): str
-            }),
+            }, extra=REMOVE_EXTRA)),
             Optional("type"): Coerce(ServiceType.coerce),
 
             # Dependencies
@@ -72,6 +72,14 @@ class ServiceConfiguration(AbstractDict):
             # I/O
             Optional("stdout"): str,
             Optional("stderr"): str,
+
+            # File rotation
+            Optional("rotate_files"): bool,
+            Optional("rotate_online"): bool,
+            Optional("stdout_creation_disposition"): int,
+            Optional("stderr_creation_disposition"): int,
+            Optional("rotation_time"): int,
+            Optional("rotation_size"): int,
 
             # Environment
             Optional("env"): Or(str, dict)

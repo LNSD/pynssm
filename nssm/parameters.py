@@ -99,12 +99,12 @@ PARAM_MAP = {
     "stderr": "AppStderr",
 
     # File rotation
-    # FILE_ROTATION_ENABLED: "AppRotateFiles",
-    # FILE_ROTATION_ONLINE: "AppRotateOnline",
-    # FILE_ROTATION_STDOUT: "AppStdoutCreationDisposition",
-    # FILE_ROTATION_STDERR: "AppStderrCreationDisposition",
-    # FILE_ROTATION_TIME: "AppRotateSeconds",
-    # FILE_ROTATION_SIZE: "AppRotateBytes",
+    "rotate_files": "AppRotateFiles",
+    "rotate_online": "AppRotateOnline",
+    "stdout_creation_disposition": "AppStdoutCreationDisposition",
+    "stderr_creation_disposition": "AppStderrCreationDisposition",
+    "rotation_time": "AppRotateSeconds",
+    "rotation_size": "AppRotateBytes",
 
     # Environment
     "env": "AppEnvironmentExtra"
