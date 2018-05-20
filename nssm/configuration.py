@@ -1,11 +1,11 @@
 """
 
 """
-from voluptuous import Schema, Optional, Or, Coerce, REMOVE_EXTRA, \
+from voluptuous import Schema, Required, Optional, Or, Coerce, REMOVE_EXTRA, \
                        humanize as hum
 
 from nssm.abstract.collections import AbstractDict
-from nssm.parameters import StartupType, PriorityLevel
+from nssm.parameters import StartupType, PriorityLevel, ServiceType
 
 
 class ServiceConfiguration(AbstractDict):
@@ -40,6 +40,13 @@ class ServiceConfiguration(AbstractDict):
             Optional("description"): str,
             Optional("startup"): Coerce(StartupType.coerce),
 
+            # Log on
+            Optional("user_account"): Or(str, {
+                Required("username"): str,
+                Required("password"): str
+            }),
+            Optional("type"): Coerce(ServiceType.coerce),
+
             # Dependencies
             Optional("dependencies"): Or(str, list),
 
@@ -59,5 +66,5 @@ class ServiceConfiguration(AbstractDict):
             Optional("stderr"): str,
 
             # Environment
-            Optional("env"): Or(str, list, dict)
+            Optional("env"): Or(str, dict)
         }, extra=REMOVE_EXTRA)

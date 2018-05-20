@@ -107,7 +107,17 @@ class Service(object):
         # Update service configuration
         self.configuration.update(config)
 
-        for param, val in config.items():
-            Wrapper.command("set", self.name, PARAM_MAP[param], val)
+        for param, value in config.items():
+
+            if param == "user_account" and isinstance(value, dict):
+                value = value["username"] + " " + value["password"]
+
+            elif param == "env" and isinstance(value, dict):
+                env = ""
+                for k, v in value.items():
+                    env += k + "=" + v
+                value = env
+
+            Wrapper.command("set", self.name, PARAM_MAP[param], value)
 
 

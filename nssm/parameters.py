@@ -4,7 +4,7 @@
 
 from nssm.abstract.collections import AbstractEnum
 
-__all__ = ["StartupType", "PriorityLevel"]
+__all__ = ["StartupType", "PriorityLevel", "ServiceType"]
 
 
 class StartupType(AbstractEnum):
@@ -37,6 +37,19 @@ class PriorityLevel(AbstractEnum):
     IDLE = "IDLE_PRIORITY_CLASS"
 
 
+class ServiceType(AbstractEnum):
+    """
+    The Type parameter is used to query or set the service type. `nssm`
+    recognises all currently documented service types but will only allow
+    setting one of two types: SERVICE_WIN32_OWN_PROCESS or
+    SERVICE_INTERACTIVE_PROCESS
+    """
+    # A standalone service. This is the default.
+    STANDALONE = "SERVICE_WIN32_OWN_PROCESS"
+    # A service which can interact with the desktop.
+    DESKTOP = "SERVICE_INTERACTIVE_PROCESS"
+
+
 PARAM_MAP = {
     # Application
     "path": "Application",
@@ -47,6 +60,10 @@ PARAM_MAP = {
     "display_name": "DisplayName",
     "description": "Description",
     "startup": "Start",
+
+    # Log on
+    "user_account": "ObjectName",
+    "type": "Type",
 
     # Dependencies
     "dependencies": "DependsOnService",

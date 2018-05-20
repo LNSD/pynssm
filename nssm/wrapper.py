@@ -54,7 +54,6 @@ class Wrapper(object):
                 "start": ServiceStartException,
                 "restart": ServiceStartException,
                 "stop": ServiceStopException,
-                "stop": ServiceStopException,
                 "pause": ServicePauseException,
                 "continue": ServiceResumeException
             }
