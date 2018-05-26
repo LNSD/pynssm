@@ -264,6 +264,7 @@ setup_dict = dict(
     maintainer=metadata.authors[0],
     maintainer_email=metadata.emails[0],
     url=metadata.url,
+    download_url=metadata.download_url,
     description=metadata.description,
     long_description=convert_md_to_rst('README.md'),
     # Find a list of classifiers here:

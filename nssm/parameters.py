@@ -4,8 +4,6 @@
 """
 from nssm.abstract.collections import AbstractEnum
 
-__all__ = ["StartupType", "PriorityLevel", "ServiceType", "ExitAction"]
-
 
 class StartupType(AbstractEnum):
         """

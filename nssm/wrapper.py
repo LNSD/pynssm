@@ -28,7 +28,7 @@ class Wrapper(object):
         :rtype: (int, str)
         """
         # Build de command string
-        cmd = [Wrapper._nssm_exe(), command, service_name]
+        cmd = [Wrapper.nssm_exe(), command, service_name]
         cmd += args if len(args) == 1 else list(args)
 
         # Format in an unique command string
@@ -73,11 +73,16 @@ class Wrapper(object):
                 raise NssmException(service_name, msg)
 
     @staticmethod
-    def _nssm_exe():
+    def nssm_exe():
         """
-        Build executable full path depending on processor architecture
+        Build full path to the NSSM binary executable depending on processor
+        architecture
+
         :return: Path to the bundled executable
         :rtype: str
         """
         arch = "win64" if os.environ['PROCESSOR_ARCHITECTURE'] else "win32"
         return os.path.join(os.path.dirname(__file__), "bin", arch, "nssm.exe")
+
+
+EXECUTABLE = Wrapper.nssm_exe()

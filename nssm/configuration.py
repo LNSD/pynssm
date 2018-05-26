@@ -27,6 +27,7 @@ class ServiceConfiguration(AbstractDict):
     def _get_schema():
         """
         Build a voluptuous schema to validate the input keyword arguments
+
         :return: Voluptuous schema
         :rtype: :class:`Schema`
         """

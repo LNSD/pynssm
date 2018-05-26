@@ -13,3 +13,12 @@ __version__ = metadata.version
 __author__ = metadata.authors[0]
 __license__ = metadata.license
 __copyright__ = metadata.copyright
+
+# NSSM executable path
+from .wrapper import EXECUTABLE
+
+from .service import Service, ServiceStatus
+from .configuration import ServiceConfiguration
+from .parameters import StartupType, PriorityLevel, ServiceType, ExitAction
+
+from .exceptions import *
