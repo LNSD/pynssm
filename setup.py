@@ -253,6 +253,8 @@ python_version_specific_requires = []
 if sys.version_info < (2, 7) or (3, 0) <= sys.version_info < (3, 3):
     python_version_specific_requires.append('argparse')
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
 # See here for more options:
 # <http://pythonhosted.org/setuptools/setuptools.html>
@@ -266,7 +268,8 @@ setup_dict = dict(
     url=metadata.url,
     download_url=metadata.download_url,
     description=metadata.description,
-    long_description=convert_md_to_rst('README.md'),
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     # Find a list of classifiers here:
     # <http://pypi.python.org/pypi?%3Aaction=list_classifiers>
     classifiers=[

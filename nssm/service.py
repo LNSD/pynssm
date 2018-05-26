@@ -2,11 +2,11 @@
  Created on May 19, 2018
  @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
 """
-from nssm.abstract.collections import AbstractEnum
+from .abstract.collections import AbstractEnum
 
-from nssm.wrapper import Wrapper
-from nssm.parameters import PARAM_MAP
-from nssm.configuration import ServiceConfiguration
+from .wrapper import Wrapper
+from .parameters import PARAM_MAP
+from .configuration import ServiceConfiguration
 
 
 class ServiceStatus(AbstractEnum):

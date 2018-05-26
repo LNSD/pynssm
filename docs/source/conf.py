@@ -243,7 +243,7 @@ man_pages = [
 texinfo_documents = [
     ('index', metadata.project_no_spaces,
      metadata.project + ' Documentation', metadata.authors_string,
-     metadata.project_no_spaces, metadata.description, 'Miscellaneous'),
+     metadata.project_no_spaces, metadata.description, 'Miscellaneous')
 ]
 
 # Documents to append as an appendix to all manuals.

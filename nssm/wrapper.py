@@ -7,7 +7,7 @@ import re
 import subprocess as sp
 import logging
 
-from nssm.exceptions import *
+from .exceptions import NssmException, map_exception
 
 log = logging.getLogger(__name__)
 
@@ -17,8 +17,9 @@ class Wrapper(object):
     @staticmethod
     def command(command, service_name, *args):
         """
-        Service installation
-        :param command: nssm command
+        NSSM command
+
+        :param command: NSSM command
         :type command: str
         :param service_name: Service name
         :type service_name: str
@@ -44,33 +45,27 @@ class Wrapper(object):
             return 0, out.decode("utf-16")
 
         except sp.CalledProcessError as err:
-            msg = "{msg} ({rc}): {out}"
+            # Tidy up the command error output
             err.output = err.output.decode("utf-16")
             err.output = re.sub(r"\n+", " ", err.output)
 
-            command_except_map = {
-                "install": ServiceInstallException,
-                "remove": ServiceRemoveException,
-                "start": ServiceStartException,
-                "restart": ServiceStartException,
-                "stop": ServiceStopException,
-                "pause": ServicePauseException,
-                "continue": ServiceResumeException
-            }
+            # Map the error output code to an exception
+            exception = map_exception(command, err.returncode)
 
-            if command in command_except_map.keys():
-                msg = msg.format(
-                    msg=command_except_map[command].DEFAULT_MESSAGE,
+            if exception != NssmException:
+                message = None
+
+            else:
+                message = "{msg} ({rc}): {out}"
+                message = message.format(
+                    msg=exception.DEFAULT_MESSAGE,
                     rc=err.returncode,
                     out=err.output
                 )
-                raise command_except_map[command](service_name, msg)
 
-            else:
-                msg = msg.format(msg=NssmException.DEFAULT_MESSAGE,
-                                 rc=err.returncode,
-                                 out=err.output)
-                raise NssmException(service_name, msg)
+            raise exception(service_name, message,
+                            output=err.output,
+                            rcode=err.returncode)
 
     @staticmethod
     def nssm_exe():
@@ -85,4 +80,4 @@ class Wrapper(object):
         return os.path.join(os.path.dirname(__file__), "bin", arch, "nssm.exe")
 
 
-EXECUTABLE = Wrapper.nssm_exe()
+executable = Wrapper.nssm_exe()
