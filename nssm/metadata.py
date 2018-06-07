@@ -11,7 +11,7 @@
 package = 'pynssm'
 project = "PyNSSM"
 project_no_spaces = project.replace(' ', '')
-version = '2.24.1-alpha.3'
+version = '2.24.2-alpha.1'
 description = "Python wrapper for NSSM - the Non-Sucking Service Manager (nssm.cc)"  # NOQA
 authors = ['Lorenzo Delgado']
 authors_string = ', '.join(authors)

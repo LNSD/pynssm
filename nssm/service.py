@@ -20,22 +20,29 @@ class Service(object):
     NSSM Service class
     """
 
-    def __init__(self, name, path, **kwargs):
+    SERVICE_NAME = None
+    SERVICE_PATH = None
+
+    def __init__(self, name=None, path=None, **kwargs):
         """
         :param name: Service name
         :type name: :class:`str`
         :param path: Executable path
         :type path: :class:`str`
         """
-        self.name = name
-        self.path = path
+        if name:
+            self.SERVICE_NAME = name
+
+        if path:
+            self.SERVICE_PATH = path
+
         self.configuration = ServiceConfiguration(**kwargs)
 
     def install(self):
         """
         Install the service
         """
-        Wrapper.command("install", self.name, self.path)
+        Wrapper.command("install", self.SERVICE_NAME, self.SERVICE_PATH)
 
         if self.configuration:
             self.configure(self.configuration)
@@ -44,37 +51,37 @@ class Service(object):
         """
         Remove the service
         """
-        Wrapper.command("remove", self.name, "confirm")
+        Wrapper.command("remove", self.SERVICE_NAME, "confirm")
 
     def start(self):
         """
         Start the service
         """
-        Wrapper.command("start", self.name)
+        Wrapper.command("start", self.SERVICE_NAME)
 
     def stop(self):
         """
         Stop the service
         """
-        Wrapper.command("stop", self.name)
+        Wrapper.command("stop", self.SERVICE_NAME)
 
     def restart(self):
         """
         Restart the service
         """
-        Wrapper.command("restart", self.name)
+        Wrapper.command("restart", self.SERVICE_NAME)
 
     def pause(self):
         """
         Pause the service
         """
-        Wrapper.command("pause", self.name)
+        Wrapper.command("pause", self.SERVICE_NAME)
 
     def resume(self):
         """
         Resume the service
         """
-        Wrapper.command("continue", self.name)
+        Wrapper.command("continue", self.SERVICE_NAME)
 
     def rotate(self):
         """
@@ -85,15 +92,16 @@ class Service(object):
         file rotation. Non-nssm services might respond to control 128 in
         their own way (or ignore it, or crash).
         """
-        Wrapper.command("rotate", self.name)
+        Wrapper.command("rotate", self.SERVICE_NAME)
 
     def status(self):
         """
         Query the service's status
+
         :return: Service status
-        :rtype: :class:`ServiceStatus`
+        :rtype: :class:`.ServiceStatus`
         """
-        rc, out = Wrapper.command("status", self.name)
+        rc, out = Wrapper.command("status", self.SERVICE_NAME)
         return ServiceStatus(out.strip())
 
     def configure(self, config):
@@ -123,7 +131,7 @@ class Service(object):
             elif param == "action_on_exit":
                 for k, v in value.items():
                     v = v.value
-                    Wrapper.command("set", self.name, PARAM_MAP[param], k, v)
+                    Wrapper.command("set", self.SERVICE_NAME, PARAM_MAP[param], k, v)
                 continue
 
             if isinstance(value, AbstractEnum):
@@ -131,6 +139,14 @@ class Service(object):
             elif isinstance(value, bool):
                 value = 1 if value else 0
 
-            Wrapper.command("set", self.name, PARAM_MAP[param], value)
+            Wrapper.command("set", self.SERVICE_NAME, PARAM_MAP[param], value)
 
+    def _edit(self):
+        """
+        Opens the NSSM in GUI mode to edit the configured service. Intended
+        to be called only from the CLI.
 
+        :param name: Service name
+        :type name: :class:`str`
+        """
+        Wrapper.command("edit", self.SERVICE_NAME)
