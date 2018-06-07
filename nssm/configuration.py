@@ -2,8 +2,9 @@
  Created on May 19, 2018
  @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
 """
-from voluptuous import Schema, Required, Optional, Or, Coerce, \
-                       humanize as hum, REMOVE_EXTRA, ALLOW_EXTRA
+from voluptuous import Schema, Required, Optional, Or, Coerce, REMOVE_EXTRA, \
+                       ALLOW_EXTRA
+from voluptuous.humanize import validate_with_humanized_errors
 
 from nssm.abstract.collections import AbstractDict
 from nssm.parameters import StartupType, PriorityLevel, ServiceType, ExitAction
@@ -14,24 +15,7 @@ class ServiceConfiguration(AbstractDict):
     Service configuration object
     """
 
-    def __init__(self, *args, **kwargs):
-        """
-        Service configuration class constructor
-        """
-        super(ServiceConfiguration, self).__init__()
-
-        schema = self._get_schema()
-        self.dictionary = hum.validate_with_humanized_errors(kwargs, schema)
-
-    @staticmethod
-    def _get_schema():
-        """
-        Build a voluptuous schema to validate the input keyword arguments
-
-        :return: Voluptuous schema
-        :rtype: :class:`Schema`
-        """
-        return Schema({
+    VALIDATION_SCHEMA = Schema({
             # Application
             Optional("path"): str,
             Optional("startup_dir"): str,
@@ -85,3 +69,13 @@ class ServiceConfiguration(AbstractDict):
             # Environment
             Optional("env"): Or(str, dict)
         }, extra=REMOVE_EXTRA)
+
+    def __init__(self, *args, **kwargs):
+        """
+        Service configuration class constructor
+        """
+        super(ServiceConfiguration, self).__init__()
+
+        self.dictionary = validate_with_humanized_errors(
+            kwargs, self.VALIDATION_SCHEMA
+        )

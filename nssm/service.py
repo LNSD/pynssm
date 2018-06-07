@@ -23,9 +23,9 @@ class Service(object):
     def __init__(self, name, path, **kwargs):
         """
         :param name: Service name
-        :type name: str
+        :type name: :class:`str`
         :param path: Executable path
-        :type path: str
+        :type path: :class:`str`
         """
         self.name = name
         self.path = path
@@ -99,8 +99,9 @@ class Service(object):
     def configure(self, config):
         """
         Configure the service
+
         :param config: Service configuration
-        :type config: :class:`ServiceConfiguration`
+        :type config: :class:`.ServiceConfiguration`
         """
         msg = "Unknown configuration object: {}"
         assert isinstance(config, ServiceConfiguration), msg.format(config)

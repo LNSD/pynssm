@@ -2,7 +2,7 @@
  Created on May 19, 2018
  @author: Lorenzo Delgado <lorenzo.delgado@lnsd.es>
 """
-from nssm.abstract.collections import AbstractEnum
+from .abstract.collections import AbstractEnum
 
 
 class StartupType(AbstractEnum):
@@ -44,6 +44,7 @@ class ServiceType(AbstractEnum):
     """
     # A standalone service. This is the default.
     STANDALONE = "SERVICE_WIN32_OWN_PROCESS"
+
     # A service which can interact with the desktop.
     DESKTOP = "SERVICE_INTERACTIVE_PROCESS"
 

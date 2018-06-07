@@ -119,7 +119,7 @@ class ServiceConfigurationException(ServiceException):
     DEFAULT_MESSAGE = "Service configuration failed"
 
 
-def map_exception(command, rcode):
+def _map_exception(command, rcode):
     """
     Map command return codes to exceptions
 

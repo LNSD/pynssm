@@ -7,7 +7,7 @@ import re
 import subprocess as sp
 import logging
 
-from .exceptions import NssmException, map_exception
+from .exceptions import NssmException, _map_exception
 
 log = logging.getLogger(__name__)
 
@@ -20,14 +20,15 @@ class Wrapper(object):
         NSSM command
 
         :param command: NSSM command
-        :type command: str
+        :type command: :class:`str`
         :param service_name: Service name
-        :type service_name: str
+        :type service_name: :class:`str`
         :param args: Program arguments
-        :type args: str or tuple
+        :type args: :class:`str` or :class:`tuple`
         :return: Return code and output of the command
-        :rtype: (int, str)
+        :rtype: :class:`tuple` [ :class:`int`, :class:`str`: ]
         """
+
         # Build de command string
         cmd = [Wrapper.nssm_exe(), command, service_name]
         cmd += args if len(args) == 1 else list(args)
@@ -40,7 +41,8 @@ class Wrapper(object):
 
         # Run the command
         try:
-            out = sp.check_output(cmd, stderr=sp.STDOUT,
+            out = sp.check_output(cmd,
+                                  stderr=sp.STDOUT,
                                   universal_newlines=True)
             return 0, out.decode("utf-16")
 
@@ -50,7 +52,7 @@ class Wrapper(object):
             err.output = re.sub(r"\n+", " ", err.output)
 
             # Map the error output code to an exception
-            exception = map_exception(command, err.returncode)
+            exception = _map_exception(command, err.returncode)
 
             if exception != NssmException:
                 message = None
