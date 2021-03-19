@@ -20,7 +20,7 @@ pyflakes==1.6.0
 # Documentation
 Sphinx==1.7.1
 docutils==0.14
-Jinja2==2.10
+Jinja2==2.11.3
 MarkupSafe==1.0
 Pygments==2.2.0
 pypandoc==1.4
